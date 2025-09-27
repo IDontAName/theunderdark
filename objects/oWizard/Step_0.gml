@@ -59,10 +59,25 @@ else
 	}
 	else
 	{
-		sprite_index = WizardWalk
+		sprite_index = WizardMove
 	}
 }
 
 if (hsp != 0) image_xscale = -sign(hsp);
 
+//TESTING
+// Only trigger if left mouse clicked and not already casting
+if (mouse_check_button_pressed(mb_left))
+{
+    sprite_index = WizardCast;  // switch to casting animation
+    image_index = 0;                 // start from first frame
+}
+
+// If currently casting, check if animation finished
+if (sprite_index == WizardCast) {
+    if (image_index >= image_number - 1) {
+        sprite_index = WizardIdle; // revert to idle sprite
+        image_index = 0;               // start idle animation from frame 0
+    }
+}
 
