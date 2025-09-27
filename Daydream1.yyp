@@ -56,6 +56,7 @@
     {"id":{"name":"oStaff","path":"objects/oStaff/oStaff.yy",},},
     {"id":{"name":"oWizard","path":"objects/oWizard/oWizard.yy",},},
     {"id":{"name":"Gun","path":"sprites/Gun/Gun.yy",},},
+    {"id":{"name":"Background2","path":"sprites/Background2/Background2.yy",},},
     {"id":{"name":"JumpSpider","path":"sprites/JumpSpider/JumpSpider.yy",},},
     {"id":{"name":"ProjectileFire","path":"sprites/ProjectileFire/ProjectileFire.yy",},},
     {"id":{"name":"ReaperAttack","path":"sprites/ReaperAttack/ReaperAttack.yy",},},
