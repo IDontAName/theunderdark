@@ -57,6 +57,7 @@
     {"id":{"name":"JumpSpider","path":"sprites/JumpSpider/JumpSpider.yy",},},
     {"id":{"name":"ProjectileFire","path":"sprites/ProjectileFire/ProjectileFire.yy",},},
     {"id":{"name":"ReaperAttack","path":"sprites/ReaperAttack/ReaperAttack.yy",},},
+    {"id":{"name":"ReaperIdle2","path":"sprites/ReaperIdle2/ReaperIdle2.yy",},},
     {"id":{"name":"ReaperWalk","path":"sprites/ReaperWalk/ReaperWalk.yy",},},
     {"id":{"name":"Spectre","path":"sprites/Spectre/Spectre.yy",},},
     {"id":{"name":"SpiderIdle","path":"sprites/SpiderIdle/SpiderIdle.yy",},},
