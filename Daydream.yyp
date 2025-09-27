@@ -54,6 +54,7 @@
     {"id":{"name":"oWall","path":"objects/oWall/oWall.yy",},},
     {"id":{"name":"oWizard","path":"objects/oWizard/oWizard.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"Background2","path":"sprites/Background2/Background2.yy",},},
     {"id":{"name":"FireSprite","path":"sprites/FireSprite/FireSprite.yy",},},
     {"id":{"name":"JumpSpider","path":"sprites/JumpSpider/JumpSpider.yy",},},
     {"id":{"name":"ProjectileFire","path":"sprites/ProjectileFire/ProjectileFire.yy",},},
