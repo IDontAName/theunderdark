@@ -5,8 +5,8 @@ move_speed = 4;
 
 hp = 13
 flash = 0;
-image_xscale = 2;
-image_yscale = 2;
+image_xscale = 1;
+image_yscale = 1;
 
 // AI timers
 stroll_timer = 0;        // time left in current strolling direction

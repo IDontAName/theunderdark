@@ -53,7 +53,6 @@ if (hsp != 0) image_xscale = -sign(hsp);
 stroll_timer -= 1;
 
 if (stroll_timer <= 0) {
-    // Pick a new direction and duration
     stroll_dir = choose(-1, 0, 1);
     stroll_timer = irandom_range(60, 180); // stroll for 1–3 seconds
 }
@@ -61,7 +60,7 @@ if (stroll_timer <= 0) {
 // Move boss horizontally
 hsp = stroll_dir * move_speed;
 
-// Optional: collisions with walls
+// collisions with walls
 if (place_meeting(x + hsp, y, oWall)) {
     hsp = 0; // stop moving into walls
 }
@@ -69,11 +68,10 @@ if (place_meeting(x + hsp, y, oWall)) {
 x += hsp;
 
 // ---------------------------
-// Optional: target player AI
+// target player AI
 // ---------------------------
 var _player = instance_nearest(x, y, oWizard);
 if (_player != noone) {
-    // Example: move towards player if too far
     if (x < _player.x - 50) hsp = move_speed;
     else if (x > _player.x + 50) hsp = -move_speed;
 }
@@ -96,10 +94,10 @@ if (shoot_timer <= 0 && _player != noone) {
     shoot_timer = shoot_cooldown; // reset cooldown
 }
 if (hp <= 0) {
-    // Optional: spawn death animation, etc.
+    //spawn death animation, etc.
     
     // Immediately switch the room
-    room_goto(Level2); // replace rmNextRoom with your target room
+    room_goto(Level2); 
 
     instance_destroy(); // destroy the enemy
 }

@@ -55,7 +55,6 @@ if (_player != noone && shoot_timer <= 0) {
 
     shoot_timer = shoot_cooldown;
 
-    // Switch to attack sprite
     sprite_index = ReaperAttack;
     image_index = 0;
     image_speed = 1;

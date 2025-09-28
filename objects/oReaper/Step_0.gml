@@ -69,7 +69,7 @@ if (place_meeting(x + hsp, y, oWall)) {
 x += hsp;
 
 // ---------------------------
-// Optional: target player AI
+//target player AI
 // ---------------------------
 var _player = instance_nearest(x, y, oWizard);
 if (_player != noone) {
@@ -95,5 +95,14 @@ if (shoot_timer <= 0 && _player != noone) {
     
     shoot_timer = shoot_cooldown; // reset cooldown
 }
+if (hp <= 0) {
+    // Optional: spawn death animation, etc.
+    
+    // Immediately switch the room
+    room_goto(Level2);
+
+    instance_destroy(); // destroy the enemy
+}
+
 
 

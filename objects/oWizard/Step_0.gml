@@ -99,10 +99,6 @@ if (mouse_check_button(mb_left) && firingdelay <= 0) {
     _proj.image_angle = _proj.direction;
 }
 
-// Apply recoil (push wizard slightly backward)
-x -= lengthdir_x(recoil, point_direction(x, y, mouse_x, mouse_y));
-y -= lengthdir_y(recoil, point_direction(x, y, mouse_x, mouse_y));
-
 // Flip wizard sprite based on aim
 if (point_direction(x, y, mouse_x, mouse_y) > 90 &&
     point_direction(x, y, mouse_x, mouse_y) < 270) {
