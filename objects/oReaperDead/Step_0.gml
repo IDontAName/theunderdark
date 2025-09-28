@@ -23,7 +23,7 @@ if (done == 0) {
 
             // Switch to death state
             done = 1;
-            sprite_index = SpiderDeath; 
+            sprite_index = ReaperDeath; 
             image_index = 0;
             image_speed = 1;   // play fast
         } else {

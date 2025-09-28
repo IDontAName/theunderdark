@@ -1,5 +1,3 @@
-//Get input
-//Get input
 var key_left  = keyboard_check(vk_left) || keyboard_check(ord("A"));
 var key_right = keyboard_check(vk_right) || keyboard_check(ord("D"));
 var key_jump  = keyboard_check_pressed(vk_space);
@@ -11,7 +9,6 @@ var move = key_right - key_left;
 hsp = move * walksp;
 
 vsp = vsp + grv;
-
 if (place_meeting(x,y+1,oWall)) && (key_jump)
 {
 	vsp = -7;
@@ -79,5 +76,10 @@ if (sprite_index == WizardCast) {
         sprite_index = WizardIdle; // revert to idle sprite
         image_index = 0;               // start idle animation from frame 0
     }
+}
+if (hp <= 0) {
+    // Game Over
+    show_message("Game Over"); // or use a Game Over room
+    game_end();                // stops the game
 }
 
