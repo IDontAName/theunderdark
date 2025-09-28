@@ -74,6 +74,7 @@
     {"id":{"name":"SpiderDeath","path":"sprites/SpiderDeath/SpiderDeath.yy",},},
     {"id":{"name":"SpiderIdle","path":"sprites/SpiderIdle/SpiderIdle.yy",},},
     {"id":{"name":"SpiderWalk","path":"sprites/SpiderWalk/SpiderWalk.yy",},},
+    {"id":{"name":"SpiderWeb","path":"sprites/SpiderWeb/SpiderWeb.yy",},},
     {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
     {"id":{"name":"spr_background_1","path":"sprites/spr_background_1/spr_background_1.yy",},},
     {"id":{"name":"spr_dialogue","path":"sprites/spr_dialogue/spr_dialogue.yy",},},
