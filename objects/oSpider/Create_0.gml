@@ -17,7 +17,6 @@ stroll_timer = 0;
 jump_speed = -5;
 on_ground = false;
 last_x = x;
-d
 // Shooting
 shoot_timer = 0;
 shoot_cooldown = 90; // frames between shots

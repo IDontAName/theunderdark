@@ -83,3 +83,30 @@ if (hp <= 0) {
     game_end();                // stops the game
 }
 
+/////////////////////////////////////
+// -------------------
+// Handle firing
+firingdelay -= 1;
+recoil = max(0, recoil - 1);
+
+if (mouse_check_button(mb_left) && firingdelay <= 0) {
+    firingdelay = 20; // delay between shots
+    recoil = 4;
+
+    var _proj = instance_create_layer(x, y, layer, oProjectile);
+    _proj.speed = 8;
+    _proj.direction = point_direction(x, y, mouse_x, mouse_y) + random_range(-3,3);
+    _proj.image_angle = _proj.direction;
+}
+
+// Apply recoil (push wizard slightly backward)
+x -= lengthdir_x(recoil, point_direction(x, y, mouse_x, mouse_y));
+y -= lengthdir_y(recoil, point_direction(x, y, mouse_x, mouse_y));
+
+// Flip wizard sprite based on aim
+if (point_direction(x, y, mouse_x, mouse_y) > 90 &&
+    point_direction(x, y, mouse_x, mouse_y) < 270) {
+    image_yscale = -1;
+} else {
+    image_yscale = 1;
+}

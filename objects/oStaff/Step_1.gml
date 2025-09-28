@@ -1,30 +1,38 @@
-x = oWizard.x+3;
-y = oWizard.y-3;
+// ---------------------------
+// Position and aim
+x = oWizard.x + 3;
+y = oWizard.y - 3;
 
-image_angle = point_direction(x,y,mouse_x,mouse_y);
+image_angle = point_direction(x, y, mouse_x, mouse_y);
 
-firingdelay = firingdelay -1;
-recoil = max(0,recoil -1);
-if (mouse_check_button(mb_left)) && (firingdelay < 0)
-{
-	recoil = 4
-	firingdelay = 20;
-	with (instance_create_layer(x,y,"Projectiles",oProjectile))
-	{
-		speed = 8
-		direction = other.image_angle + random_range(-3,3);
-		image_angle = direction;
-	}
+// ---------------------------
+// Recoil and firing delay
+firingdelay -= 1;
+recoil = max(0, recoil - 1);
+
+// ---------------------------
+// Fire projectile if mouse pressed
+if (mouse_check_button(mb_left) && firingdelay < 0) {
+    
+    firingdelay = 20; // frames between shots
+    recoil = 4;
+    
+    // Use default layer for projectile
+    var _proj = instance_create_layer(x, y, layer, oProjectile); 
+    _proj.speed = 8;
+    _proj.direction = image_angle + random_range(-3, 3);
+    _proj.image_angle = _proj.direction;
 }
 
-x = x - lengthdir_x(recoil, image_angle);
-y = y - lengthdir_y(recoil, image_angle);
+// ---------------------------
+// Apply recoil effect
+x -= lengthdir_x(recoil, image_angle);
+y -= lengthdir_y(recoil, image_angle);
 
-if(image_angle > 90) && (image_angle < 270)
-{
-	image_yscale = -1;
-}
-else
-{
-	image_yscale = 1;
+// ---------------------------
+// Flip sprite vertically if aiming backward
+if (image_angle > 90 && image_angle < 270) {
+    image_yscale = -1;
+} else {
+    image_yscale = 1;
 }
