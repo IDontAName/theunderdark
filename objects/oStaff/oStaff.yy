@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"Gun",
-    "path":"sprites/Gun/Gun.yy",
+    "name":"Staff",
+    "path":"sprites/Staff/Staff.yy",
   },
   "spriteMaskId":null,
   "visible":true,
