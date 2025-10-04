@@ -1,25 +1,41 @@
+// ----------------------
+// Physics & movement
 hsp = 0;
 vsp = 0;
-grv = 0.2;
-move_speed = 4;
+grv = 0.15;
+move_speed = 2;
+jump_speed = -4;
 
-hp = 13
+// ----------------------
+// Health
+hp = 13;
 flash = 0;
+
+// ----------------------
+// Sprite scale
 image_xscale = 1;
 image_yscale = 1;
 
-// AI timers
-stroll_timer = 0;        // time left in current strolling direction
-shoot_timer = 0;         // cooldown for shooting
-shoot_cooldown = 90;     // frames between shots
+// ----------------------
+// Attack / Melee
+attacking = false;
+attack_timer = 0;
+attack_speed = 0.15;       // fps for attack animation
+attack_frame_hit = 7;      // frame where melee hit occurs
+melee_range = 40;
+stop_distance = 10;        // distance to stop in front of player
+attack_cooldown = 30;      // frames between melee attacks
+attack_cool_timer = 0;
 
-// Movement target
-stroll_dir = choose(-1, 0, 1); // -1 = left, 0 = stand still, 1 = right
+// ----------------------
+// Projectile attack
+proj_cooldown = 60;        // frames between projectiles
+proj_cool_timer = 0;
 
-// Jump
-jump_speed = -5; // negative for upward movement
-on_ground = false;
+// ----------------------
+// FSM / State
+state = "idle";
 
-// Stuck detection
-last_x = x;
-stuck_timer = 0;
+// ----------------------
+// Death
+dying = false;

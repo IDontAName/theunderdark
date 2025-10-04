@@ -1,108 +1,146 @@
-vsp = vsp + grv;
-
-//Horiz collisions
-if (place_meeting(x+hsp,y,oWall))
-{
-	while (!place_meeting(x+sign(hsp),y,oWall))
-	{
-		x = x + sign(hsp);
-	}
-	hsp = 0;
+// ----------------------
+// Death handling
+if (hp <= 0 && !dying) {
+    dying = true;
+    hsp = 0;
+    vsp = 0;
+    sprite_index = ReaperDeath;
+    image_index = 0;
+    alarm[0] = 30;       // switch room after death
+    exit;
 }
 
-x = x + hsp;
+// ----------------------
+// Apply gravity
+vsp += grv;
+vsp = clamp(vsp, -10, 10);
 
-//Verti collisions
-if (place_meeting(x,y+vsp,oWall))
-{
-	while (!place_meeting(x,y+sign(vsp),oWall))
-	{
-		y = y + sign(vsp);
-	}
-	vsp = 0;
+// ----------------------
+// Pixel-perfect horizontal movement
+var hsp_abs = abs(hsp);
+for (var i = 0; i < hsp_abs; i++) {
+    // Stop if colliding with wall or player hitbox
+    if (!place_meeting(x + sign(hsp), y, oWall) &&
+        !place_meeting(x + sign(hsp), y, oWizard)) {
+        x += sign(hsp);
+    } else {
+        hsp = 0;
+        break;
+    }
 }
 
-y = y + vsp;
-
-//Animation
-if (!place_meeting(x,y+1,oWall))
-{
-	sprite_index = ReaperIdle2;
-	image_speed = 0;
-	if (sign(vsp) > 0) image_index = 1; else image_index = 0
-//this is gonna be jump
-}
-else
-{
-	image_speed = 1
-	if (hsp == 0)
-	{
-		sprite_index = ReaperIdle2;
-	}
-	else
-	{
-		sprite_index = ReaperWalk
-	}
+// Pixel-perfect vertical movement
+var vsp_abs = abs(vsp);
+for (var i = 0; i < vsp_abs; i++) {
+    if (!place_meeting(x, y + sign(vsp), oWall)) y += sign(vsp);
+    else {
+        vsp = 0;
+        break;
+    }
 }
 
-if (hsp != 0) image_xscale = -sign(hsp);
+// ----------------------
+// Nearest player
+var player_inst = instance_nearest(x, y, oWizard);
 
-// ---------------------------
-// Random strolling AI
-// ---------------------------
-stroll_timer -= 1;
+// ----------------------
+// Reduce cooldowns
+if (attack_cool_timer > 0) attack_cool_timer -= 1;
+if (proj_cool_timer > 0) proj_cool_timer -= 1;
 
-if (stroll_timer <= 0) {
-    // Pick a new direction and duration
-    stroll_dir = choose(-1, 0, 1);
-    stroll_timer = irandom_range(60, 180); // stroll for 1–3 seconds
+// ----------------------
+// Determine distance
+var dist = noone;
+if (player_inst != noone) dist = point_distance(x, y, player_inst.x, player_inst.y);
+
+// ----------------------
+// Attack FSM logic
+if (!dying && player_inst != noone) {
+    // Start melee attack if in range and cooldown ready
+    if (!attacking && dist <= melee_range && attack_cool_timer <= 0) {
+        attacking = true;
+        attack_timer = 0;
+        damage_done = false;
+        sprite_index = ReaperAttack;
+        attack_target = player_inst;
+    }
+    // Projectile attack if in mid-range
+    else if (!attacking && dist <= 300 && dist > melee_range && proj_cool_timer <= 0) {
+        var _proj = instance_create_layer(x, y - sprite_height/4, layer, oEProjectile);
+        _proj.direction = point_direction(_proj.x, _proj.y, player_inst.x, player_inst.y);
+        _proj.speed = 6;
+        _proj.image_angle = _proj.direction;
+        proj_cool_timer = proj_cooldown;
+    }
 }
 
-// Move boss horizontally
-hsp = stroll_dir * move_speed;
+// ----------------------
+// Handle melee attack animation
+if (attacking) {
+    attack_timer += 1;
 
-// Optional: collisions with walls
-if (place_meeting(x + hsp, y, oWall)) {
-    hsp = 0; // stop moving into walls
+    // Deal damage once at start
+    if (!damage_done && attack_target != noone &&
+        point_distance(x, y, attack_target.x, attack_target.y) <= melee_range &&
+        variable_instance_exists(attack_target, "hp")) 
+    {
+        attack_target.hp -= 1;
+        damage_done = true;
+    }
+
+    // Allow movement toward player while attacking, but stop at player hitbox
+    if (player_inst != noone) {
+        if (!place_meeting(x + ((player_inst.x < x) ? -move_speed : move_speed), y, oWizard)) {
+            hsp = (player_inst.x < x) ? -move_speed : move_speed;
+        } else {
+            hsp = 0; // stop at player's hitbox
+        }
+
+        // Jump if blocked and player is above
+        if (place_meeting(x + sign(hsp), y, oWall) && (player_inst.y < y - 4)) {
+            vsp = jump_speed;
+        }
+    }
+
+    // Finish attack animation
+    if (attack_timer >= sprite_get_number(sprite_index)) {
+        attacking = false;
+        attack_cool_timer = attack_cooldown;
+    }
 }
 
-x += hsp;
+// ----------------------
+// Chasing (when not attacking)
+if (!attacking && player_inst != noone) {
+    if (dist > melee_range) {
+        if (!place_meeting(x + ((player_inst.x < x) ? -move_speed : move_speed), y, oWizard)) {
+            hsp = (player_inst.x < x) ? -move_speed : move_speed;
+        } else {
+            hsp = 0; // stop at player's hitbox
+        }
 
-// ---------------------------
-//target player AI
-// ---------------------------
-var _player = instance_nearest(x, y, oWizard);
-if (_player != noone) {
-    // Example: move towards player if too far
-    if (x < _player.x - 50) hsp = move_speed;
-    else if (x > _player.x + 50) hsp = -move_speed;
+        // Jump if blocked and player is above
+        if (place_meeting(x + sign(hsp), y, oWall) && (player_inst.y < y - 4)) {
+            vsp = jump_speed;
+        }
+    } else {
+        hsp = 0;
+    }
 }
 
-// ---------------------------
-// Shooting at player
-// ---------------------------
-shoot_timer -= 1;
-if (shoot_timer <= 0 && _player != noone) {
-    var _proj = instance_create_layer(x, y, "Instances", oEProjectile);
-    
-    // Calculate direction
-    var dx = _player.x - x;
-    var dy = _player.y - y;
-    var dist = sqrt(dx*dx + dy*dy);
-    
-    _proj.hsp = dx / dist * 6; // projectile speed 6
-    _proj.vsp = dy / dist * 6;
-    
-    shoot_timer = shoot_cooldown; // reset cooldown
-}
-if (hp <= 0) {
-    // Optional: spawn death animation, etc.
-    
-    // Immediately switch the room
-    room_goto(Level2);
-
-    instance_destroy(); // destroy the enemy
+// ----------------------
+// Animation handling
+if (!attacking) {
+    if (!place_meeting(x, y + 1, oWall)) {
+        sprite_index = ReaperIdle;
+        if (vsp > 0) image_index = 1; // falling
+        else image_index = 0;         // jumping
+    } else {
+        if (hsp == 0) sprite_index = ReaperIdle;
+        else sprite_index = ReaperWalk;
+    }
 }
 
-
-
+// ----------------------
+// Flip sprite only when moving
+if (abs(hsp) > 0.1) image_xscale = -sign(hsp);

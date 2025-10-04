@@ -1,5 +1,4 @@
-// Collision with Wizard
 if (variable_instance_exists(other, "hp")) {
-    other.hp -= 1;    // reduce health
+    other.hp -= 1; // damage player
     instance_destroy(); // destroy projectile
 }
