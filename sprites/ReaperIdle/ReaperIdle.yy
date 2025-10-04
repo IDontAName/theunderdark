@@ -1,10 +1,10 @@
 {
   "$GMSprite":"v2",
   "%Name":"ReaperIdle",
-  "bboxMode":0,
+  "bboxMode":2,
   "bbox_bottom":63,
-  "bbox_left":5,
-  "bbox_right":63,
+  "bbox_left":12,
+  "bbox_right":47,
   "bbox_top":6,
   "collisionKind":1,
   "collisionTolerance":0,
